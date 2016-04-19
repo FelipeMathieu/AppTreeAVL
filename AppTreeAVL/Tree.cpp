@@ -2,7 +2,9 @@
 
 Tree::Tree()
 {
-	root = NULL;
+	this->element = NULL;
+	this->left = NULL;
+	this->right = NULL;
 }
 Tree::~Tree()
 {
@@ -10,50 +12,44 @@ Tree::~Tree()
 
 void Tree::insert(int e, Tree *leaf)
 {
-	if (e < leaf->element)
-	{
-		if (leaf->left != NULL)
-		{
-			insert(e, leaf->left);
-		}
-		else
-		{
-			leaf->left = new Tree();
-			leaf->left->element = e;
-			leaf->left->left = NULL;
-			leaf->left->right = NULL;
-		}
-	}
-	else if (e >= leaf->element)
-	{
-		if (leaf->right != NULL)
-		{
-			insert(e, leaf->right);
-		}
-		else
-		{
-			leaf->right = new Tree();
-			leaf->right->element = e;
-			leaf->right->right = NULL;
-			leaf->right->left = NULL;
-		}
-	}
-}
+	Tree *aux = new Tree();
 
-void Tree::printTree(Tree *r, int i)
-{
-	if (r == NULL)
+	if (leaf == NULL)
 	{
-		cout << "Arvore vazia!" << endl;
-		return;
+		leaf = new Tree();
+		leaf->element = e;
+		leaf->left = NULL;
+		leaf->right = NULL;
 	}
 	else
 	{
-		printTree(r->left, i);
+		while (leaf != NULL)
+		{
+			aux = leaf;
+			if (e < leaf->element)
+			{
+				leaf = leaf->left;
+			}
+			else if (e >= leaf->element)
+			{
+				leaf = leaf->right;
+			}
+		}
 
-		i++;
-		cout << i << ' ' << r->element << endl;
-		printTree(r->right, i);
+		if (e >= aux->element)
+		{
+			aux->right = new Tree();
+			aux->right->element = e;
+			aux->right->right = NULL;
+			aux->right->left = NULL;
+		}
+		else if (e < aux->element)
+		{
+			aux->left = new Tree();
+			aux->left->element = e;
+			aux->left->left = NULL;
+			aux->left->right = NULL;
+		}
 	}
 }
 

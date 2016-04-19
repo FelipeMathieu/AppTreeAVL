@@ -9,7 +9,7 @@ class Tree
 private:
 
 	int element;
-	Tree *root, *right, *left;
+	Tree *right, *left;
 
 public:
 	Tree();
@@ -17,6 +17,5 @@ public:
 
 	void insert(int e, Tree *leaf);
 	void search(int e, Tree *aux);
-	void printTree(Tree *r, int i);
 };
 
