@@ -4,21 +4,6 @@ void main()
 {
 	Tree *A = new Tree();
 
-	A->insert(5);
-	A->insert(7);
-	A->insert(3);
-	A->search(5, A);
-	cout << endl;
-	cout << "Imprime em PreOrder:" << endl;
-	A->printPreOrder(A->Root());
-	cout << endl;
-	cout << "Imprime em InOrder:" << endl;
-	A->printInOrder(A->Root());
-	cout << endl;
-	cout << "Imprime em PostOrder:" << endl;
-	A->printPostOrder(A->Root());
-	cout << endl;
-
 	int i = 0;
 	int option = 0;
 	int e = 0;
