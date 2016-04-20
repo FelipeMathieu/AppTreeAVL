@@ -17,6 +17,7 @@ void main()
 		cout << "3-> Imprimir em PostOrder;" << endl;
 		cout << "4-> Imprimir em InOrder;" << endl;
 		cout << "5-> Sair do programa;" << endl;
+		cout << "6-> Procurar elemento;" << endl;
 		cin >> option;
 		switch (option)
 		{
@@ -29,16 +30,24 @@ void main()
 			break;
 		case 2:
 			A->printPreOrder(A->Root());
+			cout << endl;
 			break;
 		case 3:
 			A->printPostOrder(A->Root());
+			cout << endl;
 			break;
 		case 4:
 			A->printInOrder(A->Root());
+			cout << endl;
 			break;
 		case 5:
 			i = 1;
 			break;
+		case 6:
+			cout << endl;
+			cout << "Informe o elemento: ";
+			cin >> e;
+			A->search(e, A->Root());
 		}
 		if (i != 1)
 		{

@@ -51,22 +51,22 @@ void Tree::insert(int e, Node *leaf)
 		}
 }
 
-void Tree::search(int e, Tree *aux)
+void Tree::search(int e, Node *aux)
 {
 	if (aux != NULL)
 	{
-		if (e == aux->root->element)
+		if (e == aux->element)
 		{
 			cout << "Elemento " << e << " existe!" << endl;
 			return;
 		}
-		else if(e < aux->root->element)
+		else if(e < aux->element)
 		{
-			search(e, (Tree *)aux->root->left);
+			search(e, aux->left);
 		}
 		else
 		{
-			search(e, (Tree *)aux->root->right);
+			search(e, aux->right);
 		}
 	}
 	else

@@ -23,7 +23,7 @@ public:
 	~Tree();
 
 	void insert(int e);
-	void search(int e, Tree *aux);
+	void search(int e, Node *aux);
 	void printPreOrder(Node *t);
 	void printInOrder(Node *t);
 	void printPostOrder(Node *t);
