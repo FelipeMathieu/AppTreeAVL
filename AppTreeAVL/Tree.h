@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include<algorithm>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ private:
 
 	Node *root;
 	void insert(int e, Node *leaf);
+	void balance(Node *t);
 
 public:
 	Tree();
@@ -31,5 +33,11 @@ public:
 	{
 		return root;
 	}
+	int height(Node *t);
+	int difHeight(Node *t);
+	void balanceTree(Node *t);
+	void display(Node *t, int lvl);
+	Node *rightRotate(Node *t);
+	Node *leftRotate(Node *t);
 };
 

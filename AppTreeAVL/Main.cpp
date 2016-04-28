@@ -18,6 +18,7 @@ void main()
 		cout << "4-> Imprimir em InOrder;" << endl;
 		cout << "5-> Sair do programa;" << endl;
 		cout << "6-> Procurar elemento;" << endl;
+		cout << "7-> Display;" << endl;
 		cin >> option;
 		switch (option)
 		{
@@ -48,6 +49,10 @@ void main()
 			cout << "Informe o elemento: ";
 			cin >> e;
 			A->search(e, A->Root());
+		case 7:
+			cout << endl;
+			A->display(A->Root(), 1);
+			cout << endl << endl << endl;
 		}
 		if (i != 1)
 		{
