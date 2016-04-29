@@ -13,7 +13,7 @@ void Tree::insert(int e)
 {
 	if (this->root != NULL)
 	{
-		insert(e, root);
+		root = insert(e, root);
 	}
 	else
 	{
@@ -22,41 +22,27 @@ void Tree::insert(int e)
 	}
 }
 
-void Tree::insert(int e, Node *leaf)
+Node *Tree::insert(int e, Node *leaf)
 {
-	Node *aux = NULL;
-	
-	while (leaf != NULL)
+	if (leaf == NULL)
 	{
-		aux = leaf;
-		if (e < leaf->element)
-		{
-			leaf = leaf->left;
-		}
-		else if (e >= leaf->element)
-		{
-			leaf = leaf->right;
-		}
-	}
-
-	if (e >= aux->element)
-	{
-		aux->right = new Node();
-		leaf = aux->right;
+		leaf = new Node();
 		leaf->element = e;
-		//leaf->height = aux->height + 1;
-
-		root = balance(root);
+		return leaf;
 	}
-	else if (e < aux->element)
+
+	if (e >= leaf->element)
 	{
-		aux->left = new Node();
-		leaf = aux->left;
-		leaf->element = e;
-		//leaf->height = aux->height + 1;
-
-		root = balance(root);
+		leaf->right = insert(e, leaf->right);
+		leaf = balance(leaf);
 	}
+	else if (e < leaf->element)
+	{
+		leaf->left = insert(e, leaf->left);
+		leaf = balance(leaf);
+	}
+
+	return leaf;
 }
 
 void Tree::search(int e, Node *aux)
@@ -143,8 +129,7 @@ int Tree::difHeight(Node *t)
 Node *Tree::balance(Node *t)
 {
 	int bFactor;
-	Node *aux = NULL;
-	Node *ant = new Node();
+	Node *aux;
 
 	if (t != NULL)
 	{
@@ -164,18 +149,7 @@ Node *Tree::balance(Node *t)
 			}
 			if (difHeight(aux) < 0)
 			{
-				ant = t;
-				aux = leftRightRotate(t);
-				if (ant == root)
-				{
-					root = aux;
-					return aux;
-				}
-				else
-				{
-					ant->right = aux;
-					return ant;
-				}
+				t = leftRightRotate(t);
 			}
 			else
 			{
@@ -194,18 +168,7 @@ Node *Tree::balance(Node *t)
 			}
 			if (difHeight(aux) > 0)
 			{
-				ant = t;
-				aux = rightLeftRotate(t);
-				if (ant == root)
-				{
-					root = aux;
-					return aux;
-				}
-				else
-				{
-					ant->right = aux;
-					return ant;
-				}
+				t = rightLeftRotate(t);
 			}
 			else
 			{

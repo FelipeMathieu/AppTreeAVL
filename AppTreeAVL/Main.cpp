@@ -49,10 +49,12 @@ void main()
 			cout << "Informe o elemento: ";
 			cin >> e;
 			A->search(e, A->Root());
+			break;
 		case 7:
 			cout << endl;
 			A->display(A->Root(), 1);
 			cout << endl << endl << endl;
+			break;
 		}
 		if (i != 1)
 		{

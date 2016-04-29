@@ -17,7 +17,7 @@ class Tree
 private:
 
 	Node *root;
-	void insert(int e, Node *leaf);
+	Node *insert(int e, Node *leaf);
 
 public:
 	Tree();
