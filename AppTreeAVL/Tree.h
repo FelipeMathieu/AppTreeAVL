@@ -18,7 +18,6 @@ private:
 
 	Node *root;
 	void insert(int e, Node *leaf);
-	void balance(Node *t);
 
 public:
 	Tree();
@@ -35,9 +34,11 @@ public:
 	}
 	int height(Node *t);
 	int difHeight(Node *t);
-	void balanceTree(Node *t);
+	Node *balance(Node *t);
 	void display(Node *t, int lvl);
 	Node *rightRotate(Node *t);
 	Node *leftRotate(Node *t);
+	Node *leftRightRotate(Node *t);
+	Node *rightLeftRotate(Node *t);
 };
 

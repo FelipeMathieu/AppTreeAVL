@@ -13,12 +13,12 @@ void Tree::insert(int e)
 {
 	if (this->root != NULL)
 	{
-		this->insert(e, this->root);
+		insert(e, root);
 	}
 	else
 	{
-		this->root = new Node();
-		this->root->element = e;
+		root = new Node();
+		root->element = e;
 	}
 }
 
@@ -42,16 +42,20 @@ void Tree::insert(int e, Node *leaf)
 	if (e >= aux->element)
 	{
 		aux->right = new Node();
-		aux->right->element = e;
+		leaf = aux->right;
+		leaf->element = e;
+		//leaf->height = aux->height + 1;
 
-		balanceTree(root);
+		root = balance(root);
 	}
 	else if (e < aux->element)
 	{
 		aux->left = new Node();
-		aux->left->element = e;
+		leaf = aux->left;
+		leaf->element = e;
+		//leaf->height = aux->height + 1;
 
-		balanceTree(root);
+		root = balance(root);
 	}
 }
 
@@ -127,77 +131,90 @@ int Tree::height(Node *t)
 int Tree::difHeight(Node *t)
 {
 	int x, y, z;
-	
+
 	x = height(t->left);
 	y = height(t->right);
+
 	z = x - y;
 
 	return z;
 }
 
-void Tree::balanceTree(Node *t)
+Node *Tree::balance(Node *t)
 {
-	if (t != NULL)
-	{
-		balanceTree(t->left);
-		balanceTree(t->right);
-		balance(t);
-	}
-}
-
-void Tree::balance(Node *t)
-{
-	int bFactor, bFactor2;
+	int bFactor;
 	Node *aux = NULL;
+	Node *ant = new Node();
 
 	if (t != NULL)
 	{
+		balance(t->left);
+		balance(t->right);
 		bFactor = difHeight(t);
 
-		if (bFactor == 2)
+		if (bFactor > 1)
 		{
 			if (t->left != NULL)
 			{
-				bFactor2 = difHeight(t->left);
-			}
-			else
-			{
-				bFactor2 = 0;
-			}
-			if (bFactor2 == -1)
-			{
 				aux = t->left;
-				t->left = leftRotate(aux);
-				root = rightRotate(root);
 			}
 			else
 			{
-				root = rightRotate(root);
+				aux = NULL;
+			}
+			if (difHeight(aux) < 0)
+			{
+				ant = t;
+				aux = leftRightRotate(t);
+				if (ant == root)
+				{
+					root = aux;
+					return aux;
+				}
+				else
+				{
+					ant->right = aux;
+					return ant;
+				}
+			}
+			else
+			{
+				t = rightRotate(t);
 			}
 		}
-
-		if (bFactor == -2)
+		else if (bFactor < -1)
 		{
 			if (t->right != NULL)
 			{
-				bFactor2 = difHeight(t->right);
-			}
-			else
-			{
-				bFactor2 = 0;
-			}
-			if (bFactor2 == 1)
-			{
 				aux = t->right;
-				t->right = rightRotate(aux);
-				root = leftRotate(root);
 			}
 			else
 			{
-				root = leftRotate(root);
+				aux = NULL;
+			}
+			if (difHeight(aux) > 0)
+			{
+				ant = t;
+				aux = rightLeftRotate(t);
+				if (ant == root)
+				{
+					root = aux;
+					return aux;
+				}
+				else
+				{
+					ant->right = aux;
+					return ant;
+				}
+			}
+			else
+			{
+				t = leftRotate(t);
 			}
 		}
 	}
+
+	return t;
 }
 
 void Tree::display(Node *t, int lvl)
@@ -231,6 +248,9 @@ Node *Tree::rightRotate(Node *t)
 	q->right = t;
 	t->left = aux;
 
+	/*t->height = max(height(t->left), height(t->right)) + 1;
+	q->height = max(height(q->left), height(q->right)) + 1;*/
+
 	cout << "Simple Right Rotate." << endl;
 
 	return q;
@@ -246,7 +266,22 @@ Node *Tree::leftRotate(Node *t)
 	q->left = t;
 	t->right = aux;
 
+	/*t->height = max(height(t->left), height(t->right)) + 1;
+	q->height = max(height(q->left), height(q->right)) + 1;*/
+
 	cout << "Simple Left Rotate." << endl;
 
 	return q;
+}
+
+Node *Tree::leftRightRotate(Node *t)
+{
+	t->left = leftRotate(t->left);
+	return rightRotate(t);
+}
+
+Node *Tree::rightLeftRotate(Node *t)
+{
+	t->right = rightRotate(t->right);
+	return leftRotate(t);
 }
