@@ -293,6 +293,7 @@ void Tree::remove(Node *t, int e)
 
 Node *Tree::removeElement(Node *t, int e)
 {
+
 	if (t == NULL)
 	{
 		return t;

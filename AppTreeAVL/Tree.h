@@ -41,7 +41,6 @@ public:
 	Node *leftRotate(Node *t);
 	Node *leftRightRotate(Node *t);
 	Node *rightLeftRotate(Node *t);
-	//Node *removeElement(Node *t, int e);
 	void remove(Node *t, int e);
 };
 
