@@ -13,7 +13,7 @@ void Tree::insert(int e)
 {
 	if (this->root != NULL)
 	{
-		root = insert(e, root);
+		insertNode(e, root);
 	}
 	else
 	{
@@ -22,39 +22,49 @@ void Tree::insert(int e)
 	}
 }
 
-Node *Tree::insert(int e, Node *leaf)
+void Tree::insertNode(int e, Node *leaf)
 {
-	if (leaf == NULL)
+	Node *aux = NULL;
+
+	while (leaf != NULL)
 	{
-		leaf = new Node();
+		aux = leaf;
+		if (e < leaf->element)
+		{
+			leaf = leaf->left;
+		}
+		else if (e >= leaf->element)
+		{
+			leaf = leaf->right;
+		}
+	}
+
+	if (e >= aux->element)
+	{
+		aux->right = new Node();
+		leaf = aux->right;
 		leaf->element = e;
-		return leaf;
+	}
+	else if (e < aux->element)
+	{
+		aux->left = new Node();
+		leaf = aux->left;
+		leaf->element = e;
 	}
 
-	if (e >= leaf->element)
-	{
-		leaf->right = insert(e, leaf->right);
-		leaf = balance(leaf);
-	}
-	else if (e < leaf->element)
-	{
-		leaf->left = insert(e, leaf->left);
-		leaf = balance(leaf);
-	}
-
-	return leaf;
+	root = balance(root);
 }
 
-void Tree::search(int e, Node *aux)
+int Tree::search(int e, Node *aux)
 {
 	if (aux != NULL)
 	{
 		if (e == aux->element)
 		{
 			cout << "Elemento " << e << " existe!" << endl;
-			return;
+			return 1;
 		}
-		else if(e < aux->element)
+		else if (e < aux->element)
 		{
 			search(e, aux->left);
 		}
@@ -66,6 +76,7 @@ void Tree::search(int e, Node *aux)
 	else
 	{
 		cout << "Elemento nao existe!" << endl;
+		return 0;
 	}
 }
 
@@ -131,10 +142,15 @@ Node *Tree::balance(Node *t)
 	int bFactor;
 	Node *aux;
 
+	if (t == NULL)
+	{
+		return t;
+	}
+
 	if (t != NULL)
 	{
-		balance(t->left);
-		balance(t->right);
+		t->left = balance(t->left);
+		t->right = balance(t->right);
 		bFactor = difHeight(t);
 
 		if (bFactor > 1)
@@ -211,9 +227,6 @@ Node *Tree::rightRotate(Node *t)
 	q->right = t;
 	t->left = aux;
 
-	/*t->height = max(height(t->left), height(t->right)) + 1;
-	q->height = max(height(q->left), height(q->right)) + 1;*/
-
 	cout << "Simple Right Rotate." << endl;
 
 	return q;
@@ -228,9 +241,6 @@ Node *Tree::leftRotate(Node *t)
 	aux = q->left;
 	q->left = t;
 	t->right = aux;
-
-	/*t->height = max(height(t->left), height(t->right)) + 1;
-	q->height = max(height(q->left), height(q->right)) + 1;*/
 
 	cout << "Simple Left Rotate." << endl;
 
@@ -247,4 +257,84 @@ Node *Tree::rightLeftRotate(Node *t)
 {
 	t->right = rightRotate(t->right);
 	return leftRotate(t);
+}
+
+void Tree::remove(Node *t, int e)
+{
+	int aux;
+
+	if (t == NULL)
+	{
+		cout << "A arvore esta vazia!" << endl;
+	}
+	else
+	{
+		aux = search(e, t);
+		if (aux == 1)
+		{
+			t = removeElement(t, e);
+			if (t != NULL)
+			{
+				cout << "Elemento " << e << " removido!" << endl;
+				root = balance(root);
+			}
+			else
+			{
+				cout << "Arvore vazia!" << endl;
+				root = NULL;
+			}
+		}
+		else
+		{
+			return;
+		}
+	}
+}
+
+Node *Tree::removeElement(Node *t, int e)
+{
+	if (t == NULL)
+	{
+		return t;
+	}
+	if (e < t->element)
+	{
+		t->left = removeElement(t->left, e);
+	}
+	else if (e > t->element)
+	{
+		t->right = removeElement(t->right, e);
+	}
+
+	else
+	{
+		if (t->left == NULL || t->right == NULL)
+		{
+			Node *aux = t->left ? t->left : t->right;
+
+			if (aux == NULL)
+			{
+				aux = t;
+				t = NULL;
+			}
+			else
+			{
+				*t = *aux;
+			}
+			free(aux);
+		}
+		else
+		{
+			Node *aux = t->right;
+
+			while (aux->left != NULL)
+			{
+				aux = aux->left;
+			}
+
+			t->element = aux->element;	
+			t->right = removeElement(t->right, t->element);
+		}
+	}
+	return t;
 }

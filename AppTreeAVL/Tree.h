@@ -17,14 +17,15 @@ class Tree
 private:
 
 	Node *root;
-	Node *insert(int e, Node *leaf);
+	void insertNode(int e, Node *leaf);
+	Node *removeElement(Node *t, int e);
 
 public:
 	Tree();
 	~Tree();
 
 	void insert(int e);
-	void search(int e, Node *aux);
+	int search(int e, Node *aux);
 	void printPreOrder(Node *t);
 	void printInOrder(Node *t);
 	void printPostOrder(Node *t);
@@ -40,5 +41,7 @@ public:
 	Node *leftRotate(Node *t);
 	Node *leftRightRotate(Node *t);
 	Node *rightLeftRotate(Node *t);
+	//Node *removeElement(Node *t, int e);
+	void remove(Node *t, int e);
 };
 

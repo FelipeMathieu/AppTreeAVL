@@ -6,7 +6,7 @@ void main()
 
 	int i = 0;
 	int option = 0;
-	int e = 0;
+	int e = 0, ex = 0;
 	char p;
 
 	do
@@ -19,6 +19,7 @@ void main()
 		cout << "5-> Sair do programa;" << endl;
 		cout << "6-> Procurar elemento;" << endl;
 		cout << "7-> Display;" << endl;
+		cout << "8-> Remove elemento;" << endl;
 		cin >> option;
 		switch (option)
 		{
@@ -48,13 +49,18 @@ void main()
 			cout << endl;
 			cout << "Informe o elemento: ";
 			cin >> e;
-			A->search(e, A->Root());
+			ex = A->search(e, A->Root());
 			break;
 		case 7:
 			cout << endl;
 			A->display(A->Root(), 1);
 			cout << endl << endl << endl;
 			break;
+		case 8:
+			int x;
+			cout << "Informe o valor a ser removido: ";
+			cin >> x;
+			A->remove(A->Root(), x);
 		}
 		if (i != 1)
 		{
